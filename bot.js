@@ -1,10 +1,14 @@
 const axios = require("axios");
 const express = require("express");
 const bosyParser = require("body-parser");
+const dotenv = require("dotenv");
+
+// Configuring the dotenv
+dotenv.config();
 
 // Telegram Bot Token and Telegram Api url
-const TELEGRAM_BOT_TOKEN = "7460079858:AAGunDcnjmDJQN_RDZl3CbauyZxFB1zq9yw";
-const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
+// const TELEGRAM_BOT_TOKEN = "7460079858:AAGunDcnjmDJQN_RDZl3CbauyZxFB1zq9yw";
+// const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
 
 // Setting up the Express app
 const app = express();
@@ -24,7 +28,7 @@ async function getRandomWikipediaArticle() {
 
 // Function to send a message with an inline keyboard
 async function sendTelegramMessage(chat_id, message) {
-  const url = `${TELEGRAM_API_URL}/sendMessage`;
+  const url = `${process.env.TELEGRAM_API_URL}/sendMessage`;
   const params = {
     chat_id: chat_id,
     text: message.text,
@@ -45,7 +49,7 @@ async function sendTelegramMessage(chat_id, message) {
 }
 
 // Function to handle incoming updates (messages and button clicks)
-app.post(`/webhook/${TELEGRAM_BOT_TOKEN}`, async (req, res) => {
+app.post(`/webhook/${process.env.TELEGRAM_BOT_TOKEN}`, async (req, res) => {
   const message = req.body.message;
   const callbackQuery = req.body.callback_query;
 
@@ -71,7 +75,7 @@ app.post(`/webhook/${TELEGRAM_BOT_TOKEN}`, async (req, res) => {
     }
 
     // Acknowledge the callback query to remove the loading animation
-    await axios.post(`${TELEGRAM_API_URL}/answerCallbackQuery`, {
+    await axios.post(`${process.env.TELEGRAM_API_URL}/answerCallbackQuery`, {
       callback_query_id: callbackQuery.id,
     });
   }
