@@ -1,4 +1,7 @@
 .env
 
+# Ignoring the node modules
+/node_modules
+
 # 
 Theory.txt

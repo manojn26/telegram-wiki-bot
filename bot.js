@@ -2,6 +2,8 @@ const axios = require("axios");
 const express = require("express");
 const bosyParser = require("body-parser");
 const dotenv = require("dotenv");
+const getRandomWikipediaArticle = require("./getRandomArticle");
+const sendTelegramMessage = require("./telegramBotHandler");
 
 // Configuring the dotenv
 dotenv.config();
@@ -9,40 +11,6 @@ dotenv.config();
 // Setting up the Express app
 const app = express();
 app.use(bosyParser.json());
-
-// Function to get a random Wikipedia article
-async function getRandomWikipediaArticle() {
-  try {
-    const response = await axios.get(
-      "https://en.wikipedia.org/api/rest_v1/page/random/summary"
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching random Wikipedia article:", error);
-  }
-}
-
-// Function to send a message with an inline keyboard
-async function sendTelegramMessage(chat_id, message) {
-  const url = `${process.env.TELEGRAM_API_URL}/sendMessage`;
-  const params = {
-    chat_id: chat_id,
-    text: message.text,
-    reply_markup: JSON.stringify({
-      inline_keyboard: [
-        [{ text: "Get Another Article", callback_data: "get_random_article" }],
-      ],
-    }),
-    parse_mode: "Markdown",
-  };
-
-  try {
-    await axios.post(url, params);
-    console.log("Message sent successfully");
-  } catch (error) {
-    console.error("Error sending message to Telegram:", error);
-  }
-}
 
 // Function to handle incoming updates (messages and button clicks)
 app.post(`/webhook/${process.env.TELEGRAM_BOT_TOKEN}`, async (req, res) => {
