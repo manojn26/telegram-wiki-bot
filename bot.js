@@ -6,10 +6,6 @@ const dotenv = require("dotenv");
 // Configuring the dotenv
 dotenv.config();
 
-// Telegram Bot Token and Telegram Api url
-// const TELEGRAM_BOT_TOKEN = "7460079858:AAGunDcnjmDJQN_RDZl3CbauyZxFB1zq9yw";
-// const TELEGRAM_API_URL = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`;
-
 // Setting up the Express app
 const app = express();
 app.use(bosyParser.json());
