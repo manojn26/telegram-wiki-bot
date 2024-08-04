@@ -1,3 +1,5 @@
+const axios = require("axios");
+
 // Function to send a message with an inline keyboard
 async function sendTelegramMessage(chat_id, message) {
   const url = `${process.env.TELEGRAM_API_URL}/sendMessage`;
