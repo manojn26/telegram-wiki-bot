@@ -1,3 +1,5 @@
+const axios = require("axios");
+
 // Function to get a random Wikipedia article
 async function getRandomWikipediaArticle() {
   try {
